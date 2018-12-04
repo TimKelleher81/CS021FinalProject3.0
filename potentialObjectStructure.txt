@@ -1,0 +1,12 @@
+Page object contains accounts (Instagram + buffer + possibly github) and memes
+the following either extend memes or are contained within it(unsure of terminology):
+album -> requires 2-10 image objects, also strongly suggests hashtag object, and suggests description object
+post -> requires image or album object, strongly suggests hashtag object, and suggests description object. Also allows attaching a comment object to extend num of hashtags [image also contains a large amount of data]
+     post upload stream y/n determines actively working to determine queue place then posting, vs passive maintain state and do not post to page auto
+
+image -> requires file name and path name, along with a large amount of data
+(not video yet)
+
+All comment objects contain data of all linked posts + collective and individual stats of those collective posts
+
+All hashtag objects contain a list of (maximum 30) unique hashtags separated by spaces and preceded by 5 * each followed by a newline char, as well as data of all linked posts + collective and individual stats of those collective posts. Attaching a second hashtag object to a post will first try to merge the two into a new hashtag object. then any hashtags over the 30 cap will be added to another new hashtag object that will be attached to the post as a comment

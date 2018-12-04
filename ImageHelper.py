@@ -29,7 +29,7 @@ def main():
 
     check_file_paths()
 
-    print('Timeout is currently set to', str(AlarmTime.delay()), 'seconds.')
+    print('Timeout is currently set to', str(AlarmTime.timeout), 'seconds.')
 
     while True:
         main_menu()

@@ -1,0 +1,59 @@
+Any and all data collected should be stored and maintained even if the program is closed
+Synchronizing screen while checking page and folder, before displaying menu
+Main menu: #of images found, current post order, current upload stream: active/deactivated (enter to switch w/1 min lag time), view image data, view image issues (with count to right), view graphs, view timeline, edit posting/buffer settings, helper settings, refresh, accounts (display something in main menu if accounts are not present or login is invalid(option to disable in settings)), exit
+Be sure to have exit dialogue if anything is still running (be specific), or confirmation for value selected or given if within update lag time for that value (possible default exit dialogue w/option to dissable in settings
+List titles, file type, size, date created, date modified, if posted; date of post and link; likes and comments; post number; followers and description at the time of posting if possible, source of image if known, provider (who found it, me or someone else?)
+Option to mark post as hidden (maintains all previous data)
+Possibly provide links to google reverse image search page or list "title" found or both (settings)
+Save description and hashtag formats (as separate items)+ descriptions or titles for them
+Besides saving groups of hashtags to a format, also track a list of each individual hashtag along with the posts that use it and the collective data for those posts
+Ability to link new or existing description and hashtag formats to a post when giving entering it into the upload stream
+Notify user if duplicate hashtags are found and if more than 30 (be sure to use a constant) hashtags are found
+Notify user if hashtags are found within description and ask to move to hashtags. re check that total hashtags is below 30
+if more than 30 hashtags are found, option to add to comment below post (attach comment to the hashtag object while also adding to hashtag list)
+option to manually attach comment to hashtag object
+try to pull list of individual hashtags + data from instagram. Use for autocomplete, search, and information.
+Option to mark posts as part of upload stream or not
+Notify user if post is in upload stream without a description or hashtags (settings)
+Possibly graphs of likes, comments and follows
+Maintain internal timeline
+Add important notes, changes, or milestones (automated w/ settings + optional manual) to internal timeline
+Add tags
+Create list and count of all tags used
+Open specific images
+Some way to indicate posting as album
+Give option to save possible comment
+Add manual post order
+Possibly some to indicate a form of suggested order
+Add option to force posts to be consecutive
+Avoid placing posts with the same tag next to each other
+Check for duplicates within folder
+do all above functions on old photos
+Check how to access Instagram API
+Option to archive any comments and likes if running on a server
+Ask user at start if the program will run continuous on a server or one time (also give option within settings + tell user that it can be changed in settings) also give option to set default in settings
+Distinguish between duplicate with individual image already posted, image already posted as part of an album, and another image within the folder. Specify the location of each image that occurs
+Save all data from images within .txt or .CSV file (display data storage method in settings .txt, .csv, other file type, or database management system. No changes allowed by user, simply display
+Possibly option to post, or if not possible then link user as far as possible, or option to add to buffer
+Possibly learn how to securely store credentials (username + password) for Instagram and buffer (possibly github too)
+Be able to list, order, and access all images by any of the data collected on them
+See if Instagram API can provide any other data or provide other functions
+Always keep 5? files: unapplied changes, 2 current data, last data set, and data set before. Along with possible 6th auxiliary transfer file (possibly unnecessary, depending on how file update is handled)
+Don't update current data file until multiple changes are ready (change value in settings)
+Don't update current data file until Backup data is updated
+Add everything to GitHub (Code for sure, data only if it can be added to a private repository)
+Option to sync data to GitHub from main menu (if used) (changes in settings
+Look at possible database management systems INSTEAD OF GODDAMN TEXT FILES
+Display if manual override of any functions was used on a post when viewing the upload stream, view specifics at image data
+Notification to user before posting manual overridden posts (change timing, disable, or prevent auto posting any overridden posts in settings)
+Find out if a .ini file should be used to contain constants that might need to be changed in future iterations of the program
+Mark images as needing some other change
+
+
+Display image count
+Display resolution and aspect ratios
+Flag images as too wide, landscape, square, portrait, or too tall. Both by resolution and ratio (be sure to set values for the above as constants)
+Flag images if size is over 8MB
+Tell user if any images are not JPEG or PNG (settings)
+Possibly pull all old photos from page and add to sub folder?
+Possibly edit oversized images to fit. Either open image for the user to view before anything, before replacing the old image or both (settings)

@@ -63,6 +63,3 @@ def update_timeout_u():
         timeout = user_in
         print('New timeout value has been set.')
 
-
-def delay():
-    return timeout

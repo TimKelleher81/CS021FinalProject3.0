@@ -62,4 +62,3 @@ def update_timeout_u():
     else:
         timeout = user_in
         print('New timeout value has been set.')
-

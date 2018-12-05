@@ -158,7 +158,10 @@ def settings_menu_options():
     return user_select
 
 
-
+# Either cycles through images 1 by 1 or lists all.
+# At end, allows user to select and image to view more options on.
+# If cycling through, allows user to select the current image to view more options
+#   in the same way that is available at the end.
 def view_all_images():
     user_select = safe_input("\nEnter 0 to cycle through all images\n"
                              "\tor enter 1 to list all with the option to select at the end: ")
@@ -177,9 +180,9 @@ def view_all_images():
                                          "\tenter 0 to continue cycling through images, \n"
                                          "\tor enter 1 to list all remaining images: ")
                 if user_select == 0:
-
+                    print()  # Filler
                 elif user_select == 1:
-
+                    print()  # Filler
                 else:
                     i = length  # Does not work as is
     elif user_select == 1:

@@ -44,10 +44,7 @@ def main_menu():
     if options == 1:
         view_all_images()
     elif options == 2:
-        if other_data['invalidCount'] > 0:
-            list_invalid()
-        else:
-            print('No current image errors. Returning to menu.')
+        list_invalid()
     elif options == 3:
         for i in range(1, len(image_data) + 1):
             img_details_display(i)
@@ -484,31 +481,35 @@ def update_from_rollover():
 #   if they would like it edited to fix the ratio, if so runs 'fix_ratio()'
 def list_invalid():
     global other_data
-    count = 1
-    for i in image_data:
-        if not image_data[i]['validRatio']:
-            print(str(count) + ' - ' + image_data[i]['fileName'] + ' has an invalid ratio:')
-            print('\tRatio Type: ' + image_data[i]['ratioType'])
-            print('\tWidth (px): ' + str(image_data[i]['width']))
-            print('\tHeight (px): ' + str(image_data[i]['height']))
-            print('\tRatio: 1:' + format(image_data[i]['ratio'], '.2f'))
-            user_select = safe_input(
-                "\nPress enter to pass the image or enter F to have it edited to a valid ratio with no content lost: ")
-            if user_select.lower() == 'f':
-                fix_ratio(i)
-            else:
+    if other_data['invalidCount'] > 0:
+        count = 1
+        for i in image_data:
+            if not image_data[i]['validRatio']:
+                print(str(count) + ' - ' + image_data[i]['fileName'] + ' has an invalid ratio:')
+                print('\tRatio Type: ' + image_data[i]['ratioType'])
+                print('\tWidth (px): ' + str(image_data[i]['width']))
+                print('\tHeight (px): ' + str(image_data[i]['height']))
+                print('\tRatio: 1:' + format(image_data[i]['ratio'], '.2f'))
+                user_select = safe_input(
+                    "\nPress enter to pass the image or enter F to have it edited to a valid ratio with no content lost: ")
+                if user_select.lower() == 'f':
+                    fix_ratio(i)
+                else:
+                    count += 1
+
+            if not image_data[i]['validSize']:
+                print(str(count) + ' - ' + image_data[i]['fileName'] + ' has an invalid size: \n\tover '
+                      + str(MAXFILESIZE / 1000000) + 'MB')
                 count += 1
 
-        if not image_data[i]['validSize']:
-            print(str(count) + ' - ' + image_data[i]['fileName'] + ' has an invalid size: \n\tover '
-                  + str(MAXFILESIZE / 1000000) + 'MB')
-            count += 1
+            if not image_data[i]['validExtension']:
+                print(str(count) + ' - ' + image_data[i]['fileName'] + ' has an invalid file extension: \n\t'
+                      + image_data[i]["extension"])
+                count += 1
+        other_data['totalImgErrors'] = count
+    else:
+        print('No current image errors. Returning to menu.')
 
-        if not image_data[i]['validExtension']:
-            print(str(count) + ' - ' + image_data[i]['fileName'] + ' has an invalid file extension: \n\t'
-                  + image_data[i]["extension"])
-            count += 1
-    other_data['totalImgErrors'] = count
 
 
 # Creates a count of images that have at least one invalid element

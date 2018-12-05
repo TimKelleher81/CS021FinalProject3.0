@@ -178,19 +178,22 @@ def view_all_images():
         loop = False
         print('Invalid input, returning to menu.')
     while i < length and loop:
-        print(str(i) + '- ' + image_data[str(i)]['fileName'])
+        try:
+            print(str(i) + '- ' + image_data[str(i)]['fileName'])
 
-        if user_select == 0:
-            cycle = safe_input("\n")
-            if cycle == 0:
-                # new options menu here
+            if user_select == 0:
+                cycle = safe_input("\n")
+                if cycle == 0:
+                    # new options menu here
 
-                user_select = safe_input("\nPress enter to return to the main menu,\n"
-                                         "\tenter 0 to continue cycling through images, \n"
-                                         "\tor enter 1 to list all remaining images: ")
-        elif user_select == 1:
-            print('\n')
-        else:
+                    user_select = safe_input("\nPress enter to return to the main menu,\n"
+                                             "\tenter 0 to continue cycling through images, \n"
+                                             "\tor enter 1 to list all remaining images: ")
+            elif user_select == 1:
+                print('\n')
+            else:
+                loop = False
+        except KeyError:
             loop = False
 
     user_select = safe_input("\nEnter an image's name or the number to the left of it to view details."

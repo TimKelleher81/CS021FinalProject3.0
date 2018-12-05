@@ -165,34 +165,38 @@ def settings_menu_options():
 def view_all_images():
     user_select = safe_input("\nEnter 0 to cycle through all images\n"
                              "\tor enter 1 to list all with the option to select at the end: ")
+    # Used in case that image_data is changed within, so that the length of the loop can still be referred to
+    length = len(image_data) + 1
+    i = 1
+    loop = True
+
     if user_select == 0:
         print("\nEnter 0 to select an image or press enter to continue to the next image: ")
-        # Used in case that image_data is changed within,
-        #   so that the length of the loop can still be referred to
-        length = len(image_data) + 1
-        for i in range(1, length):
-            print(str(i) + '- ' + image_data[str(i)]['fileName'])
-            user_select = safe_input("\n")
-            if user_select == 0:
+    elif user_select == 1:
+        print("\nListing images:\n")
+    else:
+        loop = False
+        print('Invalid input, returning to menu.')
+    while i < length and loop:
+        print(str(i) + '- ' + image_data[str(i)]['fileName'])
+
+        if user_select == 0:
+            cycle = safe_input("\n")
+            if cycle == 0:
                 # new options menu here
 
                 user_select = safe_input("\nPress enter to return to the main menu,\n"
                                          "\tenter 0 to continue cycling through images, \n"
                                          "\tor enter 1 to list all remaining images: ")
-                if user_select == 0:
-                    print()  # Filler
-                elif user_select == 1:
-                    print()  # Filler
-                else:
-                    i = length  # Does not work as is
-    elif user_select == 1:
-        for i in range(1, len(image_data) + 1):
-            print(str(i) + '- ' + image_data[str(i)]['fileName'])
-        user_select = safe_input("\nEnter an image's name or the number to the left of it to view details."
-                                 "\nOtherwise, press enter to continue: ")
+        elif user_select == 1:
+            print('\n')
+        else:
+            loop = False
+
+    user_select = safe_input("\nEnter an image's name or the number to the left of it to view details."
+                             "\nOtherwise, press enter to continue: ")
+    if user_select != '':
         img_details_display(user_select)
-    else:
-        print('Invalid input, returning to menu.')
 
 
 # Changes image_path based upon user input. Then validates that the path exists.
@@ -494,7 +498,8 @@ def list_invalid():
                 print('\tHeight (px): ' + str(image_data[i]['height']))
                 print('\tRatio: 1:' + format(image_data[i]['ratio'], '.2f'))
                 user_select = safe_input(
-                    "\nPress enter to pass the image or enter F to have it edited to a valid ratio with no content lost: ")
+                    "\nPress enter to pass the image "
+                    "or enter F to have it edited to a valid ratio with no content lost: ")
                 if user_select.lower() == 'f':
                     fix_ratio(i)
                 else:
@@ -512,7 +517,6 @@ def list_invalid():
         other_data['totalImgErrors'] = count
     else:
         print('No current image errors. Returning to menu.')
-
 
 
 # Creates a count of images that have at least one invalid element

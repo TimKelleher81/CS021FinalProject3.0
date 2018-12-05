@@ -42,21 +42,12 @@ def main_menu():
     options = main_menu_options()
 
     if options == 1:
-        for i in range(1, len(image_data) + 1):
-            print(str(i) + '- ' + image_data[str(i)]['fileName'])
-        user_select = safe_input("\nEnter an image's name or the number to the left of it to view details."
-                                 "\nOtherwise, press enter to continue: ")
-        img_details_display(user_select)
-
+        view_all_images()
     elif options == 2:
-        if other_data['invalidCount'] > 0:
-            list_invalid()
-        else:
-            print('No current image errors. Returning to menu.')
+        list_invalid()
     elif options == 3:
         for i in range(1, len(image_data) + 1):
-            img_details_display(i)
-
+            print_img_details(img_key_get(i))
     elif options == 4:
         print('Updating image data.')
         update_image_data()
@@ -78,8 +69,8 @@ def main_menu_options():
     # as that is what is used when an invalid string is received.
     print('\n\n' + 'Options Menu:')
     print('----------------------------------------------')
-    print('     List all found images ----------------- 1')
-    print('\t\t- ' + str(len(image_data)) + ' image(s) -')
+    print('     View images and data ------------------ 1')
+    print('\t\t- ' + str(len(image_data)) + ' image(s) found -')
     print('     List images found with errors --------- 2')
     if other_data['invalidCount'] > 0:
         print('\t\t- ' + str(other_data['invalidCount']) + ' image(s) - '
@@ -143,6 +134,7 @@ def settings_menu():
 
 
 # Prints settings menu and receives user input. Then validates that input.
+# Should be run as an option off of main menu
 def settings_menu_options():
 
     print('\n\n' + 'Settings Menu:')
@@ -153,6 +145,168 @@ def settings_menu_options():
     print('     Change new image prefix --------------- 4')
     print('     Reset settings ------------------------ 5')
     print('     Return to main menu ------------------- E')
+
+    user_select = safe_input('Selection: ')
+    print('\n')
+
+    try:
+        user_select = int(user_select)
+    except ValueError:
+        if user_select.lower() != 'e':
+            user_select = 0
+    return user_select
+
+
+# Either cycles through images 1 by 1 or lists all.
+# At end, allows user to select and image to view more options on.
+# If cycling through, allows user to select the current image to view more options
+#   in the same way that is available at the end.
+def view_all_images():
+
+    cycle = safe_input("\nEnter 0 to cycle through all images\n"
+                       "\tor enter 1 to list all with the option to select at the end: ")
+    try:
+        cycle = int(cycle)
+    except ValueError:
+        cycle = ''
+    # Used in case that image_data is changed within, so that the length of the loop can still be referred to
+    length = len(image_data) + 1
+    i = 1
+    loop = True
+    menu = False
+
+    if cycle == 0:
+        print("\nEnter 0 to select the current image, \n"
+              "\tenter an image number or its title to select that image,\n"
+              "\tor press enter to continue to the next image: ")
+    elif cycle == 1:
+        print("\nListing images:\n")
+    else:
+        loop = False
+        menu = True
+        print('Invalid input, returning to menu.')
+    while loop:
+        try:
+            print('\n' + str(i) + '- ' + image_data[str(i)]['fileName'])
+
+            if cycle == 0:
+                cont = safe_input("\n")
+                if cont != '':
+                    cont = img_key_get(cont)
+
+                    if cont == '0':
+                        image_menu(i)
+                    elif cont > '0':
+                        image_menu(cont)
+
+                    cycle = safe_input("\nPress enter to return to the main menu,\n"
+                                       "\tenter 0 to continue cycling through images, \n"
+                                       "\tor enter 1 to list all images from start: ")
+                    try:
+                        cycle = int(cycle)
+                    except ValueError:
+                        cycle = ''
+                    if cycle == 0:
+                        print("\nEnter 0 to select the current image, \n"
+                              "\tenter an image number or its title to select that image,\n"
+                              "\tor press enter to continue to the next image: ")
+                    elif cycle == 1:
+                        print("\nListing images:\n")
+                        i = 1
+                else:
+                    i += 1
+            elif cycle == 1:
+                i += 1
+            else:
+                loop = False
+                menu = True
+        except KeyError:
+            print('keyError')
+            i = length
+
+        if i >= length and (menu is False):
+            i, length, loop = view_images_loop_check(i, length)
+
+
+def view_images_loop_check(i, length):
+    user_select = ' '
+    while user_select != '':
+        user_select = safe_input("\nEnter an image's name or the number to the left of it to view its options."
+                                 "\nOtherwise, press enter to continue: ")
+        if user_select != '':
+            image_menu(img_key_get(user_select))
+
+    print('Would you like to have the image list displayed again? Press enter for no, or:')
+    cycle = safe_input("\n\tEnter 0 to cycle through all images\n"
+                       "\tor enter 1 to list all with the option to select at the end: ")
+    try:
+        cycle = int(cycle)
+        length = len(image_data) + 1
+        i = 1
+        loop = True
+    except ValueError:
+        cycle = ''
+        loop = False
+
+    if cycle == 0:
+        print("\nEnter 0 to select the current image, \n"
+              "\tenter an image number or its title to select that image,\n"
+              "\tor press enter to continue to the next image: ")
+    elif cycle == 1:
+        print("\nListing images:\n")
+    else:
+        loop = False
+        print('Invalid input, returning to menu.')
+
+    return i, length, loop
+
+
+# Runs settings menu options based on user input given by function 'image_menu_options()'
+# Parameter i should be the key for the image selected
+def image_menu(i):
+    global image_path
+    while True:
+
+        options = image_menu_options(i)
+
+        if options == 1:
+            print_img_details(i)
+        elif options == 2:
+            img = Image.open(image_data[i]['path'])
+            img.show()
+        elif options == 3:
+            print('Not implemented yet.')
+        elif options == 4:
+            print('Not implemented yet. (Should be soon)')
+            # Will use something like below:
+            # os.rename(image_path + image_data[i]['fileName'], image_path + user_input)
+            # However, image_data will need to be updated
+            # This might cause the key for the selected image to change
+            # Either the key must be found afterwards using the new file name
+            # Or a similar dictionary to image_data should be created before running 'view_all_images()'
+            # This should have the main keys be the same as they were in image_data() at the start
+            # And should contain each images original name, new name, and new key
+            #   Alternatively, the image_data dictionary should be changed to either a 2d list array or a class
+            #   Or the current way of using the keys should be changed
+            #   However, these methods will take much longer
+        elif str(options).lower() == 'e':
+            return
+        else:
+            print('Option does not exist.')
+        safe_input('\nPress enter to continue...\n\n')
+
+
+# Prints image menu and receives user input. Then validates that input.
+# Should be run as an option off of view_all_images()
+def image_menu_options(i):
+
+    print('\n\n' + 'Image Options Menu: ' + str(i) + '- ' + image_data[i]['fileName'])
+    print('----------------------------------------------')
+    print('     Display details ----------------------- 1')
+    print('     View image ---------------------------- 2')
+    print('     Move image to old images path --------- 3')
+    print('     Change image name --------------------- 4')
+    print('     Return -------------------------------- E')
 
     user_select = safe_input('Selection: ')
     print('\n')
@@ -454,31 +608,35 @@ def update_from_rollover():
 #   if they would like it edited to fix the ratio, if so runs 'fix_ratio()'
 def list_invalid():
     global other_data
-    count = 1
-    for i in image_data:
-        if not image_data[i]['validRatio']:
-            print(str(count) + ' - ' + image_data[i]['fileName'] + ' has an invalid ratio:')
-            print('\tRatio Type: ' + image_data[i]['ratioType'])
-            print('\tWidth (px): ' + str(image_data[i]['width']))
-            print('\tHeight (px): ' + str(image_data[i]['height']))
-            print('\tRatio: 1:' + format(image_data[i]['ratio'], '.2f'))
-            user_select = safe_input(
-                "\nPress enter to pass the image or enter F to have it edited to a valid ratio with no content lost: ")
-            if user_select.lower() == 'f':
-                fix_ratio(i)
-            else:
+    if other_data['invalidCount'] > 0:
+        count = 1
+        for i in image_data:
+            if not image_data[i]['validRatio']:
+                print(str(count) + ' - ' + image_data[i]['fileName'] + ' has an invalid ratio:')
+                print('\tRatio Type: ' + image_data[i]['ratioType'])
+                print('\tWidth (px): ' + str(image_data[i]['width']))
+                print('\tHeight (px): ' + str(image_data[i]['height']))
+                print('\tRatio: 1:' + format(image_data[i]['ratio'], '.2f'))
+                user_select = safe_input(
+                    "\nPress enter to pass the image "
+                    "or enter F to have it edited to a valid ratio with no content lost: ")
+                if user_select.lower() == 'f':
+                    fix_ratio(i)
+                else:
+                    count += 1
+
+            if not image_data[i]['validSize']:
+                print(str(count) + ' - ' + image_data[i]['fileName'] + ' has an invalid size: \n\tover '
+                      + str(MAXFILESIZE / 1000000) + 'MB')
                 count += 1
 
-        if not image_data[i]['validSize']:
-            print(str(count) + ' - ' + image_data[i]['fileName'] + ' has an invalid size: \n\tover '
-                  + str(MAXFILESIZE / 1000000) + 'MB')
-            count += 1
-
-        if not image_data[i]['validExtension']:
-            print(str(count) + ' - ' + image_data[i]['fileName'] + ' has an invalid file extension: \n\t'
-                  + image_data[i]["extension"])
-            count += 1
-    other_data['totalImgErrors'] = count
+            if not image_data[i]['validExtension']:
+                print(str(count) + ' - ' + image_data[i]['fileName'] + ' has an invalid file extension: \n\t'
+                      + image_data[i]["extension"])
+                count += 1
+        other_data['totalImgErrors'] = count
+    else:
+        print('No current image errors. Returning to menu.')
 
 
 # Creates a count of images that have at least one invalid element
@@ -491,24 +649,22 @@ def update_invalid_count():
 
 
 # Accepts either the number key for the image_data array or an image title.
-# Validates that they correspond to an actual image, then sends the key to 'print_img_details()'
-def img_details_display(location):
+# Validates that they correspond to an actual image, then returns the key
+def img_key_get(location):
     try:
-        location = int(location)
-        found = True
         try:
-            print_img_details(str(location))
-        except KeyError:
-            found = False
-    except ValueError:
-        found = False
-        for i in image_data:
-            if image_data[i]['fileName'] == location:
-                found = True
-                print_img_details(i)
-    if not found:
+            location = int(location)
+            return str(location)
+        except ValueError:
+            for i in image_data:
+                if image_data[i]['fileName'] == location:
+                    return i
+    except KeyError:
         print('The image requested does not exist.')
-        print('Returning to menu.')
+        try:
+            return ''
+        except KeyError:
+            return
 
 
 # Prints all data for and image based upon it's key within the image_data

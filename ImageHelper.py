@@ -224,11 +224,8 @@ def view_all_images():
             print('keyError')
             i = length
 
-        if i >= length:
-            if menu is False:
-                i, length, loop = view_images_loop_check(i, length)
-            else:
-                loop = False
+        if i >= length and (menu is False):
+            i, length, loop = view_images_loop_check(i, length)
 
 
 def view_images_loop_check(i, length):

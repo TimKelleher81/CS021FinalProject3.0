@@ -42,11 +42,18 @@ def main_menu():
     options = main_menu_options()
 
     if options == 1:
-        for i in range(1, len(image_data) + 1):
-            print(str(i) + '- ' + image_data[str(i)]['fileName'])
-        user_select = safe_input("\nEnter an image's name or the number to the left of it to view details."
-                                 "\nOtherwise, press enter to continue: ")
-        img_details_display(user_select)
+        user_select = safe_input("\nEnter 0 to cycle through all images\n"
+                                 "\tor enter 1 to list all with the option to select at the end: ")
+        if user_select == 0:
+
+        elif user_select == 1:
+            for i in range(1, len(image_data) + 1):
+                print(str(i) + '- ' + image_data[str(i)]['fileName'])
+            user_select = safe_input("\nEnter an image's name or the number to the left of it to view details."
+                                     "\nOtherwise, press enter to continue: ")
+            img_details_display(user_select)
+        else:
+            print('Invalid input, returning to menu.')
 
     elif options == 2:
         if other_data['invalidCount'] > 0:

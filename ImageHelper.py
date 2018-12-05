@@ -78,7 +78,7 @@ def main_menu_options():
     # as that is what is used when an invalid string is received.
     print('\n\n' + 'Options Menu:')
     print('----------------------------------------------')
-    print('     List all found images ----------------- 1')
+    print('     View all found images ----------------- 1')
     print('\t\t- ' + str(len(image_data)) + ' image(s) -')
     print('     List images found with errors --------- 2')
     if other_data['invalidCount'] > 0:

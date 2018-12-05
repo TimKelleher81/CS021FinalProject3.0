@@ -150,6 +150,7 @@ def settings_menu():
 
 
 # Prints settings menu and receives user input. Then validates that input.
+# Should be run as an option off of main menu
 def settings_menu_options():
 
     print('\n\n' + 'Settings Menu:')

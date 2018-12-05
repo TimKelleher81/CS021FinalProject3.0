@@ -1,5 +1,5 @@
-image_path = C:\Users\Tim\Desktop\Meme_Acct_BS\11_28_18_meme_queue\
+image_path = 
 timeout = 60
 settingsRollover = True
-old_images_path = C:\Users\Tim\Desktop\Meme_Acct_BS\replaced\
+old_images_path = 
 new_image_pre = EDIT-

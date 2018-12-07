@@ -1,6 +1,7 @@
 import os
 from PIL import Image
 import AlarmTime
+from sys import platform
 
 # Current image_path being used:
 # C:\Users\Tim\Desktop\Meme_Acct_BS\11_28_18_meme_queue\
@@ -20,10 +21,16 @@ do_rollover = True
 image_path = ''
 old_images_path = ''
 new_image_pre = 'EDIT-'  # Prefix attached to the new image when one is edited and replaced
+separator = ''
 
 
 def main():
-    global image_data, data_found, other_data, rollover_data, image_path
+    global image_data, data_found, other_data, rollover_data, image_path, separator
+
+    if platform == "darwin":
+        separator = '/'
+    elif platform == "win32":
+        separator = '\\'
 
     get_rollover()
 
@@ -340,8 +347,8 @@ def change_main_path():
         print('\tPath given or current path does not exist.')
         path = safe_input('\tPlease enter a new main file path for images: ')
 
-    if path[-1] != '\\':
-        path += '\\'
+    if path[-1] != separator:
+        path += separator
 
     image_path = path
 
@@ -363,8 +370,8 @@ def change_old_images_path():
         print('\tPath given or current path does not exist.')
         path = safe_input('\tPlease enter a new old images file path: ')
 
-    if path[-1] != '\\':
-        path += '\\'
+    if path[-1] != separator:
+        path += separator
 
     old_images_path = path
 
@@ -501,7 +508,7 @@ def fix_ratio(i):
     print('New image will be saved in: ' + image_path)
     print('\twith the file name: ' + new_image_pre + image_data[i]['fileName'])
     f = new_image_pre + image_data[i]['fileName']
-    os.rename(os.path.dirname(os.path.abspath(__file__)) + '\\' + image_data[i]['fileName'], image_path + f)
+    os.rename(os.path.dirname(os.path.abspath(__file__)) + separator + image_data[i]['fileName'], image_path + f)
     update_image_data()
     for num in image_data:
         if image_data[num]['fileName'] == f:

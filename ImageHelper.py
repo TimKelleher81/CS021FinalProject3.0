@@ -27,21 +27,31 @@ separator = ''
 def main():
     global image_data, data_found, other_data, rollover_data, image_path, separator
 
-    if platform == "darwin":
+    # Checks what OS the user is using
+    if platform == "darwin":  # This is actually what Mac OSX is denoted by
+        # mac uses forwards slashes to separate their file paths
         separator = '/'
-    elif platform == "win32":
+    elif platform == "win32":  # User is running windows
+        # Windows uses backwards slashes to separate theirs
         separator = '\\'
 
+    # Initial data pull from rollover_data.txt
     get_rollover()
 
+    # Initial check that file paths from rollover_data.txt work
+    #   if they don't, prompts the user for new paths
     check_file_paths()
 
+    # Tells the user what the current timeout is set to
+    # Program times out (closes entire program) after that value in seconds during any request for user input.
     print('Timeout is currently set to', str(AlarmTime.timeout), 'seconds.')
 
-    while True:
-        main_menu()
-
-        safe_input('\nPress enter to continue...\n\n')
+    # loop variable is used so that the main menu is able to exit the program from within its function
+    loop = True
+    # while loop is used so that the main menu reappears after a menu option is ended
+    # loop breaks if user selects the exit option
+    while loop:
+        loop = main_menu()
 
 
 # Runs main menu options based on user input given by function 'main_menu_options()'
@@ -64,9 +74,12 @@ def main_menu():
     elif str(options).lower() == 'e':
         print('Closing program.')
         update_rollover()
-        return
+        return False
     else:
         print('Option does not exist.')
+
+    safe_input('\nPress enter to continue...\n\n')
+    return True
 
 
 # Prints main menu and receives user input. Then validates that input.

@@ -202,7 +202,7 @@ def view_all_images():
                     cont = img_key_get(cont)
 
                     if cont == '0':
-                        image_menu(i)
+                        image_menu(str(i))
                     elif cont > '0':
                         image_menu(cont)
 
@@ -228,7 +228,6 @@ def view_all_images():
                 loop = False
                 menu = True
         except KeyError:
-            print('keyError')
             i = length
 
         if i >= length and (menu is False):

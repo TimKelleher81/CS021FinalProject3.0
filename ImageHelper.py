@@ -283,8 +283,6 @@ def image_menu(image_key):
             img = Image.open(image_data[i]['path'])
             img.show()
         elif options == 3:
-            print('Not implemented yet.')
-        elif options == 4:
             change_image_name(i)
         elif str(options).lower() == 'e':
             loop = False
@@ -302,8 +300,7 @@ def image_menu_options(i):
     print('----------------------------------------------')
     print('     Display details ----------------------- 1')
     print('     View image ---------------------------- 2')
-    print('     Move image to old images path --------- 3')
-    print('     Change image name --------------------- 4')
+    print('     Change image name --------------------- 3')
     print('     Return -------------------------------- E')
 
     user_select = safe_input('Selection: ')

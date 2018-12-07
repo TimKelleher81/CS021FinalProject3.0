@@ -234,6 +234,8 @@ def view_all_images():
             i, length, loop = view_images_loop_check(i, length)
 
 
+# Used at the conclusion of view all images essentially to ask the user
+#   if they would like to run the loop again
 def view_images_loop_check(i, length):
     user_select = ' '
     while user_select != '':

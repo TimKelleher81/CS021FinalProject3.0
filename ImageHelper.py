@@ -403,25 +403,26 @@ def update_image_data():
 
     count = 1
     for image_name in image_names:
-        title = str(count)
-        image_data.update({title: {'fileName': image_name}})
-        image_data[title].update({"path": image_path + image_name})
-        info = os.stat(image_data[title]["path"])
-        image_data[title].update({"size": info.st_size})
-        image_data[title].update({"timeOfLastAccess": info.st_mtime})
-        ext = image_name.split('.')[-1]
-        ext = str('.' + str(ext).lower())
-        image_data[title].update({"extension": ext})
-        image_data[title]["extension"].upper()
-        img = Image.open(image_data[title]["path"])
-        image_data[title].update({"width": ''})
-        image_data[title].update({"height": ''})
-        image_data[title]["width"], image_data[title]["height"] = img.size
-        image_data[title].update({"ratio": image_data[title]["width"] / image_data[title]["height"]})
+        if image_name != '.DS_Store':
+            title = str(count)
+            image_data.update({title: {'fileName': image_name}})
+            image_data[title].update({"path": image_path + image_name})
+            info = os.stat(image_data[title]["path"])
+            image_data[title].update({"size": info.st_size})
+            image_data[title].update({"timeOfLastAccess": info.st_mtime})
+            ext = image_name.split('.')[-1]
+            ext = str('.' + str(ext).lower())
+            image_data[title].update({"extension": ext})
+            image_data[title]["extension"].upper()
+            img = Image.open(image_data[title]["path"])
+            image_data[title].update({"width": ''})
+            image_data[title].update({"height": ''})
+            image_data[title]["width"], image_data[title]["height"] = img.size
+            image_data[title].update({"ratio": image_data[title]["width"] / image_data[title]["height"]})
 
-        update_image_validity_data(title)
+            update_image_validity_data(title)
 
-        count += 1
+            count += 1
     update_invalid_count()
 
 

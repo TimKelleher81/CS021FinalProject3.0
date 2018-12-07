@@ -202,7 +202,7 @@ def view_all_images():
                     cont = img_key_get(cont)
 
                     if cont == '0':
-                        image_menu(i)
+                        image_menu(str(i))
                     elif cont > '0':
                         image_menu(cont)
 
@@ -228,13 +228,14 @@ def view_all_images():
                 loop = False
                 menu = True
         except KeyError:
-            print('keyError')
             i = length
 
         if i >= length and (menu is False):
             i, length, loop = view_images_loop_check(i, length)
 
 
+# Used at the conclusion of view all images essentially to ask the user
+#   if they would like to run the loop again
 def view_images_loop_check(i, length):
     user_select = ' '
     while user_select != '':
@@ -270,9 +271,11 @@ def view_images_loop_check(i, length):
 
 # Runs settings menu options based on user input given by function 'image_menu_options()'
 # Parameter i should be the key for the image selected
-def image_menu(i):
+def image_menu(image_key):
     global image_path
-    while True:
+    i = image_key
+    loop = True
+    while loop:
 
         options = image_menu_options(i)
 
@@ -282,25 +285,13 @@ def image_menu(i):
             img = Image.open(image_data[i]['path'])
             img.show()
         elif options == 3:
-            print('Not implemented yet.')
-        elif options == 4:
-            print('Not implemented yet. (Should be soon)')
-            # Will use something like below:
-            # os.rename(image_path + image_data[i]['fileName'], image_path + user_input)
-            # However, image_data will need to be updated
-            # This might cause the key for the selected image to change
-            # Either the key must be found afterwards using the new file name
-            # Or a similar dictionary to image_data should be created before running 'view_all_images()'
-            # This should have the main keys be the same as they were in image_data() at the start
-            # And should contain each images original name, new name, and new key
-            #   Alternatively, the image_data dictionary should be changed to either a 2d list array or a class
-            #   Or the current way of using the keys should be changed
-            #   However, these methods will take much longer
+            change_image_name(i)
         elif str(options).lower() == 'e':
-            return
+            loop = False
         else:
             print('Option does not exist.')
         safe_input('\nPress enter to continue...\n\n')
+    update_image_data()
 
 
 # Prints image menu and receives user input. Then validates that input.
@@ -311,8 +302,7 @@ def image_menu_options(i):
     print('----------------------------------------------')
     print('     Display details ----------------------- 1')
     print('     View image ---------------------------- 2')
-    print('     Move image to old images path --------- 3')
-    print('     Change image name --------------------- 4')
+    print('     Change image name --------------------- 3')
     print('     Return -------------------------------- E')
 
     user_select = safe_input('Selection: ')
@@ -750,6 +740,17 @@ def user_update_prefix():
     # Validation allowing the prefix inputted as long as it is not nothing
     if user_select.lower() != '':
         new_image_pre = user_select
+
+
+def change_image_name(image_key):
+    name = image_data[image_key]['fileName'].split('.')
+    print('Current name is: ' + name[0])
+    new_name = safe_input('Enter a new name to replace it or enter to cancel the change: ')
+    if new_name != '':
+        os.rename(image_path + image_data[image_key]['fileName'], image_path + new_name + '.' + name[-1])
+        image_data.update({image_key: {'fileName': new_name + '.' + name[-1]}})
+        image_data[image_key].update({"path": image_path + new_name + '.' + name[-1]})
+        print('Saved.')
 
 
 main()

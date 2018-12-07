@@ -689,6 +689,7 @@ def print_img_details(num: str):
             print(i + ' (width/height)' + ((8 - len(i)) * '-') + ' ' + format(image_data[num][i], '.2f'))
         else:
             print(i + ' ' + ((22 - len(i)) * '-') + ' ' + str(image_data[num][i]))
+            #Jonah Kraynak
     print('If you would like to see what these details are used for, enter 0')
     if safe_input('') == '0':
         print(image_data[num][0] + ': Required for the program to know what image you would like to manipulate')
@@ -740,10 +741,13 @@ def check_file_paths():
 
 
 # Updates the prefix added to the beginning of the image title based on user input
+# Jonah Kraynak
 def user_update_prefix():
-    global new_image_pre
+    global new_image_pre # Allows you change the global variable from this function
+    # Sets a new prefix to be used on an edited image based on user input
     user_select = safe_input("The current new image prefix attached to a new image when one is edited and replaced is '"
                              + new_image_pre + "'\nPress enter to keep the current prefix, or enter a new one: ")
+    # Validation allowing the prefix inputted as long as it is not nothing
     if user_select.lower() != '':
         new_image_pre = user_select
 

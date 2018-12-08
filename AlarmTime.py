@@ -8,7 +8,7 @@ timeout = DEFAULT  # delay time in seconds
 # Displays timeout message and closes the program if activated
 def watchdog():
     print('\n\nProgram has timed out after', str(timeout), 'seconds.\n')
-    os._exit(1)
+    os._exit(1)  # Closes the entirety of the program
 
 
 # Begins a new thread with a timer for length 'timeout' seconds
@@ -18,9 +18,9 @@ def start():
     # Checks if timeout is above 0 and defaults to 'default_timeout' (usually 60) seconds if it's below
     # If it's at zero, that is considered disabling the timeout function
     if timeout > 0:
-        threading.Timer(timeout, watchdog).start()
+        threading.Timer(timeout, watchdog).start()  # Starts a timer that will trigger watchdog() after timeout seconds
     elif timeout < 0:
-        threading.Timer(DEFAULT, watchdog).start()
+        threading.Timer(DEFAULT, watchdog).start()  # Starts a timer that will trigger watchdog() after DEFAULT seconds
 
 
 # Kills all running threads except for main
@@ -33,8 +33,8 @@ def kill():
     while threading.active_count() > 1:
         # kills the running threads until it finds that there are no more than the main thread
         try:
-            threading.enumerate()[1].cancel()
-        except IndexError:
+            threading.enumerate()[1].cancel()  # kills thread
+        except IndexError:  # triggers once threading.enumerate()[0] is the only thread remaining
             return
 
 
@@ -63,7 +63,7 @@ def update_timeout_u():
     if user_in < 0:
         print('Invalid input')
         print('Timeout reset to ' + str(DEFAULT) + ' seconds.')
-        timeout = 60
+        timeout = DEFAULT
     elif user_in == 0:
         print('Timeout disabled.')
     else:

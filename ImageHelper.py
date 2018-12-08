@@ -698,7 +698,23 @@ def print_img_details(num: str):
             print(i + ' (width/height)' + ((8 - len(i)) * '-') + ' ' + format(image_data[num][i], '.2f'))
         else:
             print(i + ' ' + ((22 - len(i)) * '-') + ' ' + str(image_data[num][i]))
-
+            #Jonah Kraynak
+    print('If you would like to see what these details are used for, enter 0')
+    if safe_input('') == '0':
+        print(image_data[num][0] + ': Required for the program to know what image you would like to manipulate')
+        print(image_data[num][1] + ': Used to find image for editing')
+        print(image_data[num][2] + ': Instagram has a max file size, this data is retrieved to see if the image is'
+                                   'compatible')
+        print(image_data[num][3] + ': Shows the last time image was accessed in epoch linux time')
+        print(image_data[num][4] + ': Used to see if your image has the optimal file format')
+        print(image_data[num][5] + '\n' + image_data[num][6] + ': The height and width are used to determine the'
+                                                               'ratio of your image to see if formatting is necessary'
+                                                               'for posting')
+        print(image_data[num][7] + ': As mentioned above, this is used for ease of posting')
+        print(image_data[num][8] + '\n' + image_data[num][9] +
+              '\n' + image_data[num][10] + image_data[num][11] + image_data[num][12] +
+              ": These are determined using the data mentioned above and are used "
+              "by the program to see if the image conforms to Instagram's formatting")
 
 # Used in place of 'input()' in order to use a timeout in every request for input,
 #   as well as updating the rollover text file beforehand in order to avoid losing data if the program is closed.
@@ -734,10 +750,13 @@ def check_file_paths():
 
 
 # Updates the prefix added to the beginning of the image title based on user input
+# Jonah Kraynak
 def user_update_prefix():
-    global new_image_pre
+    global new_image_pre # Allows you change the global variable from this function
+    # Sets a new prefix to be used on an edited image based on user input
     user_select = safe_input("The current new image prefix attached to a new image when one is edited and replaced is '"
                              + new_image_pre + "'\nPress enter to keep the current prefix, or enter a new one: ")
+    # Validation allowing the prefix inputted as long as it is not nothing
     if user_select.lower() != '':
         new_image_pre = user_select
 

@@ -44,7 +44,13 @@ def main():
 
     # Tells the user what the current timeout is set to
     # Program times out (closes entire program) after that value in seconds during any request for user input.
-    print('Timeout is currently set to', str(AlarmTime.timeout), 'seconds.')
+    if AlarmTime.timeout == 0:
+        print('Timeout is currently disabled, go to settings to re-enable it and set a new value.')
+    else:
+        print('Timeout is currently set to', str(AlarmTime.timeout), 'seconds.')
+        print('Or go to settings to disable the timeout.')
+        print('If the timeout is set too quick to get to settings, '
+              'go to the rollover_data.txt file to change it directly.')
 
     # loop variable is used so that the main menu is able to exit the program from within its function
     loop = True

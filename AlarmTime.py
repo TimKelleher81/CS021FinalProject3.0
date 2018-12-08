@@ -15,10 +15,11 @@ def watchdog():
 # Will trigger watchdog if timer reaches 0
 # Should be run before requesting any user input
 def start():
-    # Checks if timeout is above 0 and defaults to 'default_timeout' (usually 60) seconds if not
+    # Checks if timeout is above 0 and defaults to 'default_timeout' (usually 60) seconds if it's below
+    # If it's at zero, that is considered disabling the timeout function
     if timeout > 0:
         threading.Timer(timeout, watchdog).start()
-    else:
+    elif timeout < 0:
         threading.Timer(DEFAULT, watchdog).start()
 
 
@@ -27,11 +28,14 @@ def start():
 # Therefore, this function should only ever close all running timer threads
 # Should be run after receiving any user input
 def kill():
+    # check if any other threads other than the main thread are running
+    #   note: this would not work if threading was used for anything else within this program
     while threading.active_count() > 1:
+        # kills the running threads until it finds that there are no more than the main thread
         try:
             threading.enumerate()[1].cancel()
         except IndexError:
-            continue
+            return
 
 
 # Used to change timeout value programmatically from outside
@@ -45,20 +49,23 @@ def update_timeout_u():
     global timeout
     print('Timeout is used any time that user input is requested.')
     print('Current timeout is set to', str(timeout), 'seconds.')
+    print('Enter 0 to disable the timeout function.')
     print('Timeout defaults to ' + str(DEFAULT) + ' seconds at start and if timeout is set improperly.')
     start()
     try:
         user_in = int(input('Enter new timeout value in seconds: '))
     except ValueError:
         # Used to trigger reset to default below
-        user_in = 0
+        user_in = -1
     finally:
         kill()
     # Default value if user gives invalid input
-    if user_in <= 0:
+    if user_in < 0:
         print('Invalid input')
         print('Timeout reset to ' + str(DEFAULT) + ' seconds.')
         timeout = 60
+    elif user_in == 0:
+        print('Timeout disabled.')
     else:
         timeout = user_in
         print('New timeout value has been set.')

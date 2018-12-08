@@ -23,7 +23,7 @@ old_images_path = ''
 new_image_pre = 'EDIT-'  # Prefix attached to the new image when one is edited and replaced
 separator = ''
 
-
+# Tim Kelleher
 def main():
     global image_data, data_found, other_data, rollover_data, image_path, separator
 
@@ -59,7 +59,7 @@ def main():
     while loop:
         loop = main_menu()
 
-
+# Tim Kelleher
 # Runs main menu options based on user input given by function 'main_menu_options()'
 def main_menu():
     options = main_menu_options()
@@ -90,7 +90,7 @@ def main_menu():
 
 # Prints main menu and receives user input. Then validates that input.
 def main_menu_options():
-
+    # Jonah Kraynak
     # 0 should never be used as an option,
     # as that is what is used when an invalid string is received.
     print('\n\n' + 'Options Menu:')
@@ -119,7 +119,7 @@ def main_menu_options():
             user_select = 0
     return user_select
 
-
+# Tim Kelleher
 # Runs settings menu options based on user input given by function 'settings_menu_options()'
 def settings_menu():
     global image_path
@@ -158,7 +158,7 @@ def settings_menu():
             print('Option does not exist.')
         safe_input('\nPress enter to continue...\n\n')
 
-
+# Jonah Kraynak
 # Prints settings menu and receives user input. Then validates that input.
 # Should be run as an option off of main menu
 def settings_menu_options():
@@ -182,7 +182,7 @@ def settings_menu_options():
             user_select = 0
     return user_select
 
-
+# Tim Kelleher
 # Either cycles through images 1 by 1 or lists all.
 # At end, allows user to select and image to view more options on.
 # If cycling through, allows user to select the current image to view more options
@@ -252,7 +252,7 @@ def view_all_images():
         if i >= length and (menu is False):
             i, length, loop = view_images_loop_check(i, length)
 
-
+# Tim Kelleher
 # Used at the conclusion of view all images essentially to ask the user
 #   if they would like to run the loop again
 def view_images_loop_check(i, length):
@@ -287,7 +287,7 @@ def view_images_loop_check(i, length):
 
     return i, length, loop
 
-
+# Jonah Kraynak
 # Runs settings menu options based on user input given by function 'image_menu_options()'
 # Parameter i should be the key for the image selected
 def image_menu(image_key):
@@ -297,7 +297,7 @@ def image_menu(image_key):
     while loop:
 
         options = image_menu_options(i)
-
+        # Invokes written functions for option chosen
         if options == 1:
             print_img_details(i)
         elif options == 2:
@@ -312,7 +312,7 @@ def image_menu(image_key):
         safe_input('\nPress enter to continue...\n\n')
     update_image_data()
 
-
+# Jonah Kraynak
 # Prints image menu and receives user input. Then validates that input.
 # Should be run as an option off of view_all_images()
 def image_menu_options(i):
@@ -334,7 +334,7 @@ def image_menu_options(i):
             user_select = 0
     return user_select
 
-
+# Tim Kelleher
 # Changes image_path based upon user input. Then validates that the path exists.
 # (The main path (image_path) is where the program will look for images to give information on, edit, and post.)
 # Note: The program currently cannot post at all. In the future, it may be able upload to Buffer.com
@@ -361,7 +361,7 @@ def change_main_path():
 
     image_path = path
 
-
+# Tim Kelleher
 # Changes old_images_path (the path that old copies of edited or removed images are stored in)
 #   based upon user input. Then validates that the path exists.
 def change_old_images_path():
@@ -384,7 +384,7 @@ def change_old_images_path():
 
     old_images_path = path
 
-
+# Tim Kelleher
 # Should be triggered through settings menu.
 # Used to get the user's choice on whether they wish to change the main file path or old images file path.
 #   If main file path is selected, update_image_data() function is called afterwards.
@@ -402,7 +402,7 @@ def file_path_change_options():
     else:
         print('Invalid input')
 
-
+# Tim Kelleher
 # Collects and formats image data and adds to image_data dictionary.
 # Key for each image is simply a number (could be changed in the future)
 def update_image_data():
@@ -434,7 +434,7 @@ def update_image_data():
             count += 1
     update_invalid_count()
 
-
+# Tim Kelleher
 # Generates remaining image data that stems from Instagram requirements as conditional statements
 def update_image_validity_data(title):
     global image_data
@@ -476,7 +476,7 @@ def update_image_validity_data(title):
     else:
         image_data[title].update({"validVerticalResolution": False})
 
-
+# Tim Kelleher
 # Edits a given invalid image to fit within the Instagram ratio requirements.
 # Adds equally sized white bars to either the top and bottom or left and right of an image.
 # Size of white bars will make the new image ratio the minimum required depending on landscape or portrait.
@@ -528,7 +528,7 @@ def fix_ratio(i):
             print('\tHeight (px): ' + str(image_data[num]['height']))
             print('\tRatio: 1:' + format(image_data[num]['ratio'], '.2f'))
 
-
+# Tim Kelleher
 # Copies data from 'rollover_data.txt' into the rollover_data array.
 # Sets 'data_found' to true if data is present within the file and vice versa
 # Creates the text file if it does not exist
@@ -551,7 +551,7 @@ def get_rollover():
             rollover_data[i] = rollover_data[i].split()
         update_from_rollover()
 
-
+# Tim Kelleher
 # Updates rollover_data array with the values from the more specific variables if do_rollover and data_found = True
 # Then writes data to 'rollover_data.txt'
 # If do_rollover = True and data_found = False, provides the labels for the data within 'rollover_data.txt'
@@ -594,7 +594,7 @@ def update_rollover():
         rollover_data_fh.write('new_image_pre = ' + rollover_data[4][-1].strip())
     rollover_data_fh.close()
 
-
+# Tim Kelleher
 # Similar to update_rollover() function but in reverse.
 # Do rollover is updated through the rollover_data array first
 # If do_rollover = True, does the opposite of update_rollover()
@@ -619,7 +619,7 @@ def update_from_rollover():
     if not os.path.exists(old_images_path):
         old_images_path = False
 
-
+# Tim Kelleher
 # Lists each image with some form of error.
 # In the case of an invalid ratio prompts the user
 #   if they would like it edited to fix the ratio, if so runs 'fix_ratio()'
@@ -655,18 +655,18 @@ def list_invalid():
     else:
         print('No current image errors. Returning to menu.')
 
-
+# Jonah Kraynak
 # Creates a count of images that have at least one invalid element
 def update_invalid_count():
     other_data['invalidCount'] = 0
-    for i in image_data:
+    for i in image_data: # Checks the file against the existing conditions specified
         if image_data[i]['validSize'] is False or image_data[i]['validRatio'] is False \
                 or image_data[i]['validExtension'] is False:
-            other_data['invalidCount'] += 1
+            other_data['invalidCount'] += 1 # Adds one to the count if any one of these elements are False (invalid)
 
-
-# Accepts either the number key for the image_data array or an image title.
-# Validates that they correspond to an actual image, then returns the key
+# Jonah Kraynak
+# Accepts either the number key for the image_data array or an image title
+# validates that they correspond to an actual image, then returns the key
 def img_key_get(location):
     try:
         try:
@@ -683,7 +683,7 @@ def img_key_get(location):
         except KeyError:
             return
 
-
+# Tim Kelleher
 # Prints all data for and image based upon it's key within the image_data
 # Also includes some special formatting cases
 def print_img_details(num: str):
@@ -729,7 +729,7 @@ def safe_input(prompt: str):
     AlarmTime.kill()
     return s
 
-
+# Tim Kelleher
 # Checks if each file path has had a value set, if not or if it is set to False then
 #   runs either 'change_main_path()' or 'change_old_images_path()' depending which path.
 # Then runs 'update_image_data() afterwards'
@@ -764,7 +764,7 @@ def user_update_prefix():
     if user_select.lower() != '':
         new_image_pre = user_select
 
-
+# Tim Kelleher
 def change_image_name(image_key):
     name = image_data[image_key]['fileName'].split('.')
     print('Current name is: ' + name[0])

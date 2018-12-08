@@ -702,24 +702,21 @@ def print_img_details(num: str):
     #Jonah Kraynak
     print('If you would like to see what these details are used for, enter 0. \nOtherwise press enter to continue.')
     if safe_input('') == '0':
-        print(str(image_data[num]['fileName']) +
-              ': Required for the program to know what image you would like to manipulate')
-        print(str(image_data[num]['path']) + ': Used to find image for editing')
-        print(str(image_data[num]['size']) +
-              ': Instagram has a max file size, this data is retrieved to see if the image is compatible')
-        print(str(image_data[num]['timeOfLastAccess']) + ': Shows the last time image was accessed in epoch linux time')
-        print(str(image_data[num]['extension']) + ': Used to see if your image has the optimal file format')
-        print(str(image_data[num]['width']) + '\n' + str(image_data[num]['height']) +
-              ': The height and width are used to determine '
+        print('fileName: Required for the program to know what image you would like to manipulate')
+        print('path: Used to find image for editing')
+        print('size: Instagram has a max file size, this data is retrieved to see if the image is compatible')
+        print('timeOfLastAccess: Shows the last time image was accessed in epoch linux time')
+        print('extension: Used to see if your image has the optimal file format')
+        print('width' + '\n' + 'height: The height and width are used to determine '
               'the ratio of your image to see if formatting is necessary for posting')
-        print(str(image_data[num]['ratio']) + ': As mentioned above, this is used for ease of posting')
-        print(str(image_data[num]['validSize']) + '\n' + str(image_data[num]['validExtension']) + '\n' +
-              '\n' + str(image_data[num]['validRatio']) + '\n' + str(image_data[num]['ratioType']) + '\n' +
-              str(image_data[num]['validHorizontalResolution']) + '\n' + str(image_data[num]['validVerticalResolution'])
+        print('ratio: As mentioned above, this is used for ease of posting')
+        print('validSize' + '\n' + 'validExtension' + '\n' +
+              '\n' + 'validRatio' + '\n' + 'ratioType' + '\n' +
+              'validHorizontalResolution' + '\n' + 'validVerticalResolution'
               + ": These are determined using the data mentioned above and are used "
               "by the program to see if the image conforms to Instagram's formatting")
 
-
+# Tim Kelleher
 # Used in place of 'input()' in order to use a timeout in every request for input,
 #   as well as updating the rollover text file beforehand in order to avoid losing data if the program is closed.
 def safe_input(prompt: str):

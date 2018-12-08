@@ -698,23 +698,27 @@ def print_img_details(num: str):
             print(i + ' (width/height)' + ((8 - len(i)) * '-') + ' ' + format(image_data[num][i], '.2f'))
         else:
             print(i + ' ' + ((22 - len(i)) * '-') + ' ' + str(image_data[num][i]))
-            #Jonah Kraynak
-    print('If you would like to see what these details are used for, enter 0')
+
+    #Jonah Kraynak
+    print('If you would like to see what these details are used for, enter 0. \nOtherwise press enter to continue.')
     if safe_input('') == '0':
-        print(image_data[num][0] + ': Required for the program to know what image you would like to manipulate')
-        print(image_data[num][1] + ': Used to find image for editing')
-        print(image_data[num][2] + ': Instagram has a max file size, this data is retrieved to see if the image is'
-                                   'compatible')
-        print(image_data[num][3] + ': Shows the last time image was accessed in epoch linux time')
-        print(image_data[num][4] + ': Used to see if your image has the optimal file format')
-        print(image_data[num][5] + '\n' + image_data[num][6] + ': The height and width are used to determine the'
-                                                               'ratio of your image to see if formatting is necessary'
-                                                               'for posting')
-        print(image_data[num][7] + ': As mentioned above, this is used for ease of posting')
-        print(image_data[num][8] + '\n' + image_data[num][9] +
-              '\n' + image_data[num][10] + image_data[num][11] + image_data[num][12] +
-              ": These are determined using the data mentioned above and are used "
+        print(str(image_data[num]['fileName']) +
+              ': Required for the program to know what image you would like to manipulate')
+        print(str(image_data[num]['path']) + ': Used to find image for editing')
+        print(str(image_data[num]['size']) +
+              ': Instagram has a max file size, this data is retrieved to see if the image is compatible')
+        print(str(image_data[num]['timeOfLastAccess']) + ': Shows the last time image was accessed in epoch linux time')
+        print(str(image_data[num]['extension']) + ': Used to see if your image has the optimal file format')
+        print(str(image_data[num]['width']) + '\n' + str(image_data[num]['height']) +
+              ': The height and width are used to determine '
+              'the ratio of your image to see if formatting is necessary for posting')
+        print(str(image_data[num]['ratio']) + ': As mentioned above, this is used for ease of posting')
+        print(str(image_data[num]['validSize']) + '\n' + str(image_data[num]['validExtension']) + '\n' +
+              '\n' + str(image_data[num]['validRatio']) + '\n' + str(image_data[num]['ratioType']) + '\n' +
+              str(image_data[num]['validHorizontalResolution']) + '\n' + str(image_data[num]['validVerticalResolution'])
+              + ": These are determined using the data mentioned above and are used "
               "by the program to see if the image conforms to Instagram's formatting")
+
 
 # Used in place of 'input()' in order to use a timeout in every request for input,
 #   as well as updating the rollover text file beforehand in order to avoid losing data if the program is closed.
